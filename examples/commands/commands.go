@@ -2,14 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/akamensky/argparse"
 	"os"
+
+	"github.com/zanven42/argparse"
 )
 
 // Run this as `go run commands.go [start|stop]`
 func main() {
 	// Create new parser object
 	parser := argparse.NewParser("commands", "Simple example of argparse commands")
+	// help := parser.Flag("h", "help", &argparse.Options{Help: "Print help information"})
 
 	// Add top level command `start`
 	startCmd := parser.NewCommand("start", "Will start a process")
@@ -24,6 +26,11 @@ func main() {
 		return
 	}
 
+	// if help != nil && *help {
+	// 	fmt.Println("Got to help")
+	// 	fmt.Print(parser.Usage(nil))
+	// 	return
+	// }
 	// Check if `start` command was given
 	if startCmd.Happened() {
 		// Starting a process

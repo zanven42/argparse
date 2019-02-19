@@ -23,20 +23,18 @@ type arg struct {
 
 type help struct{}
 
-func (o *arg) check(argument string) bool {
+func (o *arg) check(argument string) (bool, error) {
 	// Shortcut to showing help
-	// if argument == "-h" || argument == "--help" {
-	// 	helpText := o.parent.Usage(nil)
-	// 	fmt.Print(helpText)
-	// 	os.Exit(0)
-	// }
+	if argument == "-h" || argument == "--help" {
+		return false, fmt.Errorf("Print help information")
+	}
 
 	// Check for long name only if not empty
 	if o.lname != "" {
 		// If argument begins with "--" and next is not "-" then it is a long name
 		if len(argument) > 2 && strings.HasPrefix(argument, "--") && argument[2] != '-' {
 			if argument[2:] == o.lname {
-				return true
+				return true, nil
 			}
 		}
 	}
@@ -48,18 +46,18 @@ func (o *arg) check(argument string) bool {
 			case *bool:
 				// For flags we allow multiple shorthand in one
 				if strings.Contains(argument[1:], o.sname) {
-					return true
+					return true, nil
 				}
 			default:
 				// For all other types it must be separate argument
 				if argument[1:] == o.sname {
-					return true
+					return true, nil
 				}
 			}
 		}
 	}
 
-	return false
+	return false, nil
 }
 
 func (o *arg) reduce(position int, args *[]string) {
@@ -116,9 +114,9 @@ func (o *arg) parse(args []string) error {
 
 	switch o.result.(type) {
 	case *help:
-		helpText := o.parent.Usage(nil)
-		fmt.Print(helpText)
-		os.Exit(0)
+		// helpText := o.parent.Usage(nil)
+		// fmt.Print(helpText)
+		return fmt.Errorf("Help Text called")
 	case *bool:
 		*o.result.(*bool) = true
 		o.parsed = true

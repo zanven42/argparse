@@ -89,7 +89,11 @@ func (o *Command) parse(args *[]string) error {
 			if arg == "" {
 				continue
 			}
-			if oarg.check(arg) {
+			checkVal, checkErr := oarg.check(arg)
+			if checkErr != nil {
+				return checkErr
+			}
+			if checkVal {
 				if len(*args) < j+oarg.size {
 					return fmt.Errorf("not enough arguments for %s", oarg.name())
 				}
