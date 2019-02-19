@@ -25,11 +25,11 @@ type help struct{}
 
 func (o *arg) check(argument string) bool {
 	// Shortcut to showing help
-	if argument == "-h" || argument == "--help" {
-		helpText := o.parent.Usage(nil)
-		fmt.Print(helpText)
-		os.Exit(0)
-	}
+	// if argument == "-h" || argument == "--help" {
+	// 	helpText := o.parent.Usage(nil)
+	// 	fmt.Print(helpText)
+	// 	os.Exit(0)
+	// }
 
 	// Check for long name only if not empty
 	if o.lname != "" {
