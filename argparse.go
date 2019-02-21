@@ -27,6 +27,7 @@ type Command struct {
 // functions.
 type Parser struct {
 	Command
+	NoExit bool
 }
 
 // Options are specific options for every argument. They can be provided if necessary.
@@ -404,7 +405,7 @@ func (o *Parser) Parse(args []string) error {
 	subargs := make([]string, len(args))
 	copy(subargs, args)
 
-	result := o.parse(&subargs)
+	result := o.parse(&subargs, o.NoExit)
 	unparsed := make([]string, 0)
 	for _, v := range subargs {
 		if v != "" {

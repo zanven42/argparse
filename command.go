@@ -42,7 +42,7 @@ func (o *Command) addArg(a *arg) {
 
 // Will parse provided list of arguments
 // common usage would be to pass directly os.Args
-func (o *Command) parse(args *[]string) error {
+func (o *Command) parse(args *[]string, noExit bool) error {
 	// If we already been parsed do nothing
 	if o.parsed {
 		return nil
@@ -74,7 +74,7 @@ func (o *Command) parse(args *[]string) error {
 			return newSubCommandError(o)
 		}
 		for _, v := range o.commands {
-			err := v.parse(args)
+			err := v.parse(args, noExit)
 			if err != nil {
 				return err
 			}
@@ -89,7 +89,7 @@ func (o *Command) parse(args *[]string) error {
 			if arg == "" {
 				continue
 			}
-			checkVal, checkErr := oarg.check(arg)
+			checkVal, checkErr := oarg.check(arg, noExit)
 			if checkErr != nil {
 				return checkErr
 			}

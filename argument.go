@@ -23,10 +23,15 @@ type arg struct {
 
 type help struct{}
 
-func (o *arg) check(argument string) (bool, error) {
+func (o *arg) check(argument string, noExit bool) (bool, error) {
 	// Shortcut to showing help
 	if argument == "-h" || argument == "--help" {
-		return false, fmt.Errorf("Print help information")
+		helpText := o.parent.Usage(nil)
+		if noExit == false {
+			fmt.Print(helpText)
+			os.Exit(0)
+		}
+		return false, fmt.Errorf(helpText)
 	}
 
 	// Check for long name only if not empty

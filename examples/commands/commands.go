@@ -13,6 +13,8 @@ func main() {
 	parser := argparse.NewParser("commands", "Simple example of argparse commands")
 	// help := parser.Flag("h", "help", &argparse.Options{Help: "Print help information"})
 
+	// NoExit means when help is called we will not os.Exit(0)
+	parser.NoExit = true
 	// Add top level command `start`
 	startCmd := parser.NewCommand("start", "Will start a process")
 
